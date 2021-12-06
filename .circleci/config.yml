@@ -1,16 +1,5 @@
 version: 2.1
 jobs:
-  build:
-    docker:
-      - image: cimg/python:3.9.8
-    steps:
-      - checkout
-      - run:
-          name: Build the django app
-          command: |
-            pip3 install -r requirements.txt
-            python manage.py runserver
-          background: true
   test:
     docker:
       - image: cimg/python:3.9.8
@@ -18,7 +7,11 @@ jobs:
       - checkout
       - run:
           name: Testing with pytest
-          command: pytest
+          command: |
+            pip3 install -r requirements.txt
+            pytest
       - run:
           name: Testing linting with flake8
-          command: flake8 --exclude env,migrations
+          command: |
+            pip3 install -r requirements.txt
+            flake8 --exclude env,migrations

@@ -15,3 +15,8 @@ jobs:
           command: |
             pip3 install -r requirements.txt
             flake8 --exclude env,migrations
+
+workflows:
+  build-and-test:
+    jobs:
+      - test

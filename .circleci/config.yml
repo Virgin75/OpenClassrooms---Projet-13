@@ -1,18 +1,21 @@
 version: 2.1
 jobs:
   build:
-    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
     docker:
       - image: cimg/python:3.9.8
     steps:
       - checkout
       - run:
-          name: The First Step
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
+          name: Build the django app
+          command: python manage.py runserver
+  test:
+    docker:
+      - image: cimg/python:3.9.8
+    steps:
+      - checkout
       - run:
-          name: Code Has Arrived
-          command: |
-            ls -al
-            echo '^^^That should look familiar^^^'
+          name: Testing with pytest
+          command: pytest
+      - run:
+          name: Testing linting with flake8
+          command: flake8 --exclude env,migrations

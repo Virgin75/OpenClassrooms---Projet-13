@@ -7,7 +7,9 @@ jobs:
       - checkout
       - run:
           name: Build the django app
-          command: python manage.py runserver
+          command: |
+            pip3 install -r requirements.txt
+            python manage.py runserver
   test:
     docker:
       - image: cimg/python:3.9.8

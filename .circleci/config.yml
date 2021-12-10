@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+
 jobs:
   test:
     docker:
@@ -20,3 +24,8 @@ workflows:
   build-and-test:
     jobs:
       - test
+      - heroku/push-docker-image:
+          requires:
+            - test
+          app-name:
+            - oc-lettings-9

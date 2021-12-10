@@ -19,11 +19,20 @@ jobs:
           command: |
             pip3 install -r requirements.txt
             flake8 --exclude env,migrations
-
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run:
+          command: >
+            echo "The command above installs Heroku, the command below deploys.
+            What you do inbetween is up to you!"
+      - heroku/push-docker-image
 workflows:
   build-and-test:
     jobs:
       - test
-      - heroku/push-docker-image:
+      - deploy:
           requires:
             - test

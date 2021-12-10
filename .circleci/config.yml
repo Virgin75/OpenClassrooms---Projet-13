@@ -27,5 +27,4 @@ workflows:
       - heroku/push-docker-image:
           requires:
             - test
-          app-name:
-            - oc-lettings-9
+          app-name: oc-lettings-9

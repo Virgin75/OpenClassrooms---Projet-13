@@ -25,8 +25,5 @@ workflows:
     jobs:
       - test
       - heroku/push-docker-image:
-          environment:
-            - HEROKU_APP_NAME: oc-lettings-9
-            - HEROKU_API_KEY: $HEROKU_API_KEY
           requires:
             - test

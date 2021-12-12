@@ -8,15 +8,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install python project dependencies
+          command: pip3 install -r requirements.txt
+      - run:
           name: Testing with pytest
-          command: |
-            pip3 install -r requirements.txt
-            pytest
+          command: pytest
       - run:
           name: Testing linting with flake8
-          command: |
-            pip3 install -r requirements.txt
-            flake8 --exclude env,migrations
+          command: flake8 --exclude env,migrations
 
   #Job 2 : Build the Docker image and push it to Docker hub
   containerize:

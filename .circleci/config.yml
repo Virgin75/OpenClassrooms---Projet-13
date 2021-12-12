@@ -51,6 +51,8 @@ workflows:
     jobs:
       - test
       - containerize
+          requires:
+            - test
       - deploy:
           requires:
             - test

@@ -27,7 +27,7 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 - `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
 - Activer l'environnement `source venv/bin/activate`
 - Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
-`which python`
+  `which python`
 - Confirmer que la version de l'interpréteur Python est la version 3.6 ou supérieure `python --version`
 - Confirmer que la commande `pip` exécute l'exécutable pip dans l'environnement virtuel, `which pip`
 - Pour désactiver l'environnement, `deactivate`
@@ -60,8 +60,7 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 - Se connecter à la base de données `.open oc-lettings-site.sqlite3`
 - Afficher les tables dans la base de données `.tables`
 - Afficher les colonnes dans le tableau des profils, `pragma table_info(Python-OC-Lettings-FR_profile);`
-- Lancer une requête sur la table des profils, `select user_id, favorite_city from
-  Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
+- Lancer une requête sur la table des profils, `select user_id, favorite_city from Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
 - `.quit` pour quitter
 
 #### Panel d'administration
@@ -73,5 +72,12 @@ Dans le reste de la documentation sur le développement local, il est supposé q
 
 Utilisation de PowerShell, comme ci-dessus sauf :
 
-- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
+- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1`
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Déploiement sur Heroku
+
+Le déploiement utilise une pipeline CI (via Circle CI) afin d'éxécuter les tests unitaires, vérifier le linting, et s'assurer qu'il n'y a aucune erreur lors de la constructuction de l'image, avant de la déployer sur Heroku.
+
+- À chaqué nouveau commit poussé sur `master`, tous les tests se lancent, puis en cas de succès, l'image est poussé sur Docker Hub (virgindocker75/oc-lettings:<SHA1>) puis déployée sur Heroku à l'adresse suivante : https://oc-lettings-9.herokuapp.com/
+- À chaqué nouveau commit poussé sur `staging`, seuls les tests via pytest et la vérification du linting via flake8 se lancent.

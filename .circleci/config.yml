@@ -20,6 +20,8 @@ jobs:
 
   #Job 2 : Build the Docker image and push it to Docker hub
   containerize:
+    docker:
+      - image: circleci/golang:1.15
     steps:
       - checkout
       - setup_remote_docker:

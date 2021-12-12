@@ -50,7 +50,7 @@ workflows:
   build-and-test:
     jobs:
       - test
-      - containerize
+      - containerize:
           requires:
             - test
       - deploy:

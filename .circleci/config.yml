@@ -1,6 +1,7 @@
 version: 2.1
 
 jobs:
+  # Job 1 : tests (unit tests & linting)
   test:
     docker:
       - image: cimg/python:3.9.8
@@ -16,6 +17,21 @@ jobs:
           command: |
             pip3 install -r requirements.txt
             flake8 --exclude env,migrations
+
+  #Job 2 : Build the Docker image and push it to Docker hub
+  containerize:
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+      - run: |
+          TAG=$CIRCLE_SHA1
+          docker build -t virgindocker75/oc-lettings:$TAG .
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push virgindocker75/oc-lettings:$TAG
+
+  # Job 3 : Deploy the docker image to Heroku
   deploy:
     machine: true
     steps:
@@ -32,6 +48,8 @@ workflows:
   build-and-test:
     jobs:
       - test
+      - containerize
       - deploy:
           requires:
             - test
+            - containerize

@@ -11,5 +11,4 @@ RUN . env/bin/activate && pip3 install -r requirements.txt
 
 COPY . .
 
-#ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:$PORT", "oc_lettings_site.wsgi"]
-CMD . env/bin/activate && python3 manage.py runserver 0.0.0.0:$PORT
+CMD . env/bin/activate && gunicorn --bind 0.0.0.0:$PORT oc_lettings_site.wsgi
